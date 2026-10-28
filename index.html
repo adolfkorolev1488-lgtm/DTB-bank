@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ДТБ Банк</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f8;--card:#fff;--ink:#12142b;--mut:#6b7090;--line:#e1e5f2;--acc:#3b3bf2;--acc2:#8a5cff;--pos:#0f9d6b;--neg:#e0405a;--chip:#f3f5fc;--shadow:0 8px 30px rgba(30,40,110,.08);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d0f20;--card:#171a33;--ink:#eef0ff;--mut:#9096bd;--line:#262a4d;--acc:#6f72ff;--acc2:#a78bff;--pos:#2fd39b;--neg:#ff6b86;--chip:#1e2240;--shadow:0 8px 30px rgba(0,0,0,.35)}}
+:root[data-theme="dark"]{--bg:#0d0f20;--card:#171a33;--ink:#eef0ff;--mut:#9096bd;--line:#262a4d;--acc:#6f72ff;--acc2:#a78bff;--pos:#2fd39b;--neg:#ff6b86;--chip:#1e2240;--shadow:0 8px 30px rgba(0,0,0,.35)}
+*{box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{margin:0;background:var(--bg);color:var(--ink);font:clamp(13px,1.2vw + 9px,17px)/1.5 Onest,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.app{max-width:1400px;height:100%;margin:0 auto;padding:12px 16px;display:flex;flex-direction:column}
+header{flex:none;display:flex;align-items:center;justify-content:space-between;padding:4px 0 12px}
+.logo{display:flex;align-items:center;gap:10px;font:600 18px Unbounded,Onest,sans-serif}
+.mark{width:30px;height:30px;border-radius:10px;background:conic-gradient(from 200deg,var(--acc),var(--acc2),var(--acc));display:grid;place-items:center}
+.mark:after{content:"";width:10px;height:10px;border-radius:50%;background:var(--bg)}
+.hr{display:flex;gap:10px;align-items:center}
+.ib{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;font-size:17px}
+.ava{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;display:grid;place-items:center;font-weight:600;font-size:14px}
+nav{display:flex;gap:6px;background:var(--card);border:1px solid var(--line);padding:5px;border-radius:16px;width:max-content;max-width:100%;margin-bottom:14px;flex:none}
+nav button{border:0;background:none;padding:9px 18px;border-radius:12px;color:var(--mut);font-weight:500}
+nav button.on{background:var(--acc);color:#fff}
+@media(max-width:640px){nav{order:3;width:100%;gap:2px;padding:4px;margin:10px 0 0}nav button{flex:1;min-width:0;padding:10px 0;font-size:11px}}
+.tab{display:none}.tab.on{display:block;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:2px 2px 14px}
+.grid{display:grid;gap:18px;grid-template-columns:1.15fr 1fr}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
+.box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}
+h2{font:600 16px Onest,sans-serif;margin:0 0 14px}
+.bank-card{position:relative;overflow:hidden;border-radius:24px;padding:24px;color:#fff;min-height:210px;background:radial-gradient(circle at 85% 0%,#ff9ad5 0,transparent 45%),linear-gradient(135deg,#2a1fd6,#6a3cf0 60%,#9c5bff);display:flex;flex-direction:column;justify-content:space-between;transition:filter .3s}
+.bank-card.frozen{filter:grayscale(1) brightness(.8)}
+.bank-card small{opacity:.8}
+.bank-card .bal{font:600 clamp(22px,5vw,34px) Unbounded,Onest,sans-serif;letter-spacing:-.5px;margin:4px 0}
+.bank-card .num{font-size:17px;letter-spacing:2px;display:flex;justify-content:space-between;align-items:flex-end}
+.bank-card .ring{position:absolute;right:-40px;bottom:-60px;width:200px;height:200px;border-radius:50%;border:36px solid rgba(255,255,255,.1)}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.act{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:500;font-size:13px}
+.act span{font-size:20px}
+.acc{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.acc:last-child{border:0}
+.acc b{display:block}.acc small{color:var(--mut)}
+.bar{height:8px;background:var(--chip);border-radius:8px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:8px}
+.donut{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.donut svg{width:150px;height:150px;flex:none}
+.leg{flex:1;min-width:140px;display:grid;gap:6px;font-size:13px}
+.leg div{display:flex;align-items:center;gap:8px}.leg i{width:10px;height:10px;border-radius:3px}.leg em{margin-left:auto;font-style:normal;color:var(--mut)}
+.tx{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}
+.tx:last-child{border:0}
+.ico{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;color:#fff;font-weight:600;flex:none}
+.tx .m{flex:1;min-width:0}.tx .m b{display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tx .m small{color:var(--mut)}
+.amt{font-weight:600;white-space:nowrap}.pos{color:var(--pos)}.neg{color:var(--neg)}
+label{display:block;font-size:13px;color:var(--mut);margin:14px 0 6px}
+input,select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--chip)}
+.btn{background:var(--acc);color:#fff;border:0;padding:13px 20px;border-radius:14px;font-weight:600;width:100%;margin-top:18px}
+.btn.ghost{background:var(--chip);color:var(--ink)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{border:1px solid var(--line);background:var(--chip);padding:6px 12px;border-radius:20px;font-size:13px}
+.err{color:var(--neg);font-size:13px;min-height:18px;margin-top:8px}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.sw{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.sw button{width:50px;height:28px;border-radius:20px;border:0;background:var(--line);position:relative;transition:.2s}
+.sw button:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s}
+.sw button.on{background:var(--acc)}.sw button.on:after{left:25px}
+#modal{position:fixed;inset:0;background:rgba(10,12,30,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+#modal.on{display:flex}
+.dlg{background:var(--card);border-radius:22px;padding:22px;width:100%;max-width:400px;animation:pop .18s ease-out}
+@keyframes pop{from{transform:scale(.95);opacity:0}}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(90px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:14px;font-weight:500;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90%}
+#toast.on{opacity:1}
+.empty{color:var(--mut);text-align:center;padding:26px 0}
+.jobs{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}.job small{color:var(--mut);display:block}.job.lock{opacity:.55}.btn:disabled{opacity:.45;cursor:not-allowed}
+#auth{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}#auth.off{display:none}#auth .logo{justify-content:center;margin-bottom:18px;font-size:22px}
+.pic{height:96px;border-radius:14px;display:grid;place-items:center;font-size:44px;margin-bottom:10px}.adp{font:600 18px Unbounded,Onest,sans-serif;margin-bottom:4px}.ad b{display:block}.chip.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.skins{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}.sk{border:1px solid var(--line);border-radius:16px;padding:10px;display:grid;gap:8px}.bank-card.mini{min-height:56px;padding:0;border-radius:12px}
+.bank-card.sk-sunset{background:linear-gradient(135deg,#ff8a3d,#ff3d77 55%,#7c3aed)}.bank-card.sk-ocean{background:linear-gradient(135deg,#22d3ee,#0369a1 55%,#0f172a)}.bank-card.sk-gold{background:linear-gradient(135deg,#b8860b,#f7df8a 50%,#a67c00);color:#2b2100}.bank-card.sk-dia{background:conic-gradient(from 210deg at 70% 30%,#e0f2fe,#a5b4fc,#f0abfc,#99f6e4,#e0f2fe);color:#1b1f3b}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo"><span class="mark"></span>ДТБ Банк</div>
+  <div class="hr"><button class='ib' id='snd' aria-label='Звук'>🔊</button><button class='ib' id='theme' aria-label='Сменить тему'>◐</button><button class='ib' id='out' aria-label='Выйти' title='Выйти'>⎋</button><div class='ava' id='me'>?</div></div>
+</header>
+<nav id="tabs">
+  <button data-t="home" class="on">Главная</button><button data-t="work">Работа</button><button data-t="market">Маркет</button><button data-t="pay">Переводы</button><button data-t="hist">История</button><button data-t="cards">Карта</button>
+</nav>
+
+<section id="home" class="tab on">
+  <div class="grid">
+    <div>
+      <div id="cardBox"></div>
+      <div class="actions">
+        <button class="act" id="aTop"><span>⚒</span>Работать</button>
+        <button class="act" id="aPay"><span>↗</span>Перевести</button>
+        <button class="act" id="aCash"><span>₽</span>Снять</button>
+      </div>
+      <div class="box" style="margin-top:18px"><h2>Путь к миллиону</h2><div id="goal"></div></div>
+      <div class="box" style="margin-top:18px"><h2>Счета</h2><div id="accs"></div></div>
+    </div>
+    <div style="display:grid;gap:18px;align-content:start">
+      <div class="box"><h2>Расходы по категориям</h2><div class="donut" id="donut"></div></div>
+      <div class="box"><h2>Последние операции</h2><div id="recent"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="work" class="tab"><div id="wk"></div></section>
+
+<section id='market' class='tab'><div id='mk'><div class='box' style='margin-bottom:18px'><input id='mq' placeholder='Поиск по объявлениям' aria-label='Поиск'><div class='chips' id='mchips'></div></div><div class='jobs' id='mgrid'></div><div class='box' style='margin-top:18px'><h2>Мои покупки</h2><div id='mine'></div></div></div></section>
+
+<section id="pay" class="tab">
+  <div class="grid">
+    <div class="box">
+      <h2>Новый перевод</h2>
+      <label for="from">Откуда</label><select id="from"></select>
+      <label for="to">Кому</label><select id="to"></select>
+      <div id='lw'><label for='tl'>Логин получателя</label><input id='tl' placeholder='например, ivan_2026' autocomplete='off' autocapitalize='off'></div>
+      <label for="sum">Сумма, ₽</label><input id="sum" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0,00">
+      <div class="chips" id="quick"></div>
+      <label for="note">Комментарий</label><input id="note" maxlength="60" placeholder="Необязательно">
+      <div class="err" id="perr"></div>
+      <button class="btn" id="go">Перевести</button>
+    </div>
+    <div class="box"><h2>Лимиты</h2><div id="lim"></div></div>
+  </div>
+</section>
+
+<section id="hist" class="tab">
+  <div class="box">
+    <div class="row"><input id="q" placeholder="Поиск по операциям" aria-label="Поиск"><select id="f" aria-label="Фильтр"><option value="all">Все</option><option value="in">Поступления</option><option value="out">Списания</option></select></div>
+    <div id="hsum" style="color:var(--mut);margin:14px 0 4px;font-size:13px"></div>
+    <div id="hlist"></div>
+  </div>
+</section>
+
+<section id="cards" class="tab">
+  <div class="grid">
+    <div><div id="cardBox2"></div><div class='box' style='margin-top:18px'><h2>Дизайны карты</h2><div class='skins' id='skins'></div></div></div>
+    <div class="box">
+      <h2>Управление картой</h2>
+      <div class="sw"><span>Заблокировать карту<br><small style="color:var(--mut)">Переводы и снятие будут недоступны</small></span><button id="frz" aria-label="Заблокировать"></button></div>
+      <div class="sw"><span>Показать реквизиты</span><button id="shw" aria-label="Показать реквизиты"></button></div>
+      <label for="limr">Суточный лимит на переводы: <b id="limv"></b></label>
+      <input type="range" id="limr" min="10000" max="300000" step="5000">
+      <button class="btn ghost" id="reset">Начать игру заново</button>
+    </div>
+  </div>
+</section>
+</div>
+<div id='auth'><div class='dlg'><div class='logo'><span class='mark'></span>ДТБ Банк</div><h2 id='at'>Вход</h2><label for='al'>Логин</label><input id='al' autocomplete='username' autocapitalize='off' maxlength='16'><label for='ap'>Пароль</label><input id='ap' type='password' autocomplete='current-password'><div class='err' id='ae'></div><button class='btn' id='ab'>Войти</button><button class='btn ghost' id='asw'>Нет аккаунта? Зарегистрироваться</button></div></div>
+<div id="modal"></div><div id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const KEY="dtb_bank_v1";
+const CATS={"Продукты":"#10b981","Транспорт":"#3b82f6","Кафе":"#f59e0b","Развлечения":"#ec4899","Подписки":"#8b5cf6","Здоровье":"#ef4444","Переводы":"#64748b","Наличные":"#0ea5a4","Образование":"#0ea5e9","Работа":"#0f9d6b","Маркет":"#f97316","Зарплата":"#0f9d6b","Пополнение":"#0f9d6b"};
+const CONTACTS=["Анна Смирнова","Игорь Петров","Мария Орлова","Сергей Ким"];
+const fmt=n=>new Intl.NumberFormat("ru-RU",{style:"currency",currency:"RUB",minimumFractionDigits:2}).format(n);
+const fd=d=>new Date(d).toLocaleDateString("ru-RU",{day:"numeric",month:"short"});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const day=n=>{const x=new Date();x.setDate(x.getDate()-n);x.setHours(12,0,0,0);return x.toISOString()};
+let S,showDet=false;
+
+function seed(){return{bal:{main:0,sav:0},frozen:false,limit:100000,tx:[],xp:0,edu:0,won:false,skin:'classic',skins:['classic'],items:[]}}
+function _demo(){
+  const t=(t,c,a,d,acc="main")=>({id:Math.random().toString(36).slice(2),t,c,a,d:day(d),acc});
+  return{bal:{main:87450.3,sav:250000},frozen:false,limit:100000,tx:[
+    t("Перекрёсток","Продукты",-3420.5,0),t("Яндекс Go","Транспорт",-540,1),t("Кофейня «Зерно»","Кафе",-380,1),
+    t("Кинотеатр «Мир»","Развлечения",-1200,3),t("Подписка на музыку","Подписки",-299,4),t("Аптека 36,6","Здоровье",-1450,6),
+    t("Зарплата","Зарплата",150000,8),t("ВкусВилл","Продукты",-2890,9),t("Метро","Транспорт",-260,10),
+    t("Перевод: Анна Смирнова","Переводы",-5000,12),t("Ресторан «Тропик»","Кафе",-4200,14),t("Подписка на кино","Подписки",-599,18),
+    t("Пятёрочка","Продукты",-2110,20),t("Возврат от магазина","Пополнение",1850,24)
+  ]}
+}
+
+function save(){if(cur&&S)U[cur].s=S;try{localStorage.setItem(KU,JSON.stringify(U))}catch(e){}}
+
+
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("on"),2400)}
+function add(acc,title,cat,amt){S.bal[acc]=Math.round((S.bal[acc]+amt)*100)/100;S.tx.unshift({id:Math.random().toString(36).slice(2),t:title,c:cat,a:amt,d:new Date().toISOString(),acc});save();checkWin()}
+function checkWin(){if(!S.won&&S.bal.main+S.bal.sav>=1e6){S.won=true;save();setTimeout(()=>modal("🎉 Вы миллионер!","<p style='margin:0;color:var(--mut)'>На ваших счетах в ДТБ Банке больше миллиона рублей. Можно играть дальше или начать заново.</p>","Играть дальше",()=>0),300)}}
+function spentToday(){const s=new Date().toDateString();return -S.tx.filter(x=>x.a<0&&x.c==="Переводы"&&new Date(x.d).toDateString()===s).reduce((p,x)=>p+x.a,0)}
+
+function cardHTML(){
+  const total=S.bal.main+S.bal.sav;
+  const num=showDet?"4276 3800 5512 1234":"4276 •••• •••• 1234";
+  return `<div class="bank-card sk-${S.skin} ${S.frozen?"frozen":""}"><div class="ring"></div>
+  <div style="display:flex;justify-content:space-between"><b>ДТБ Платинум · ${cur}</b><small>${S.frozen?"Заблокирована":"МИР"}</small></div>
+  <div><small>Всего на счетах</small><div class="bal">${fmt(total)}</div></div>
+  <div class="num"><span>${num}</span><small>${showDet?"12/29 · CVV 482":"12/29"}</small></div></div>`
+}
+function txRow(x){const c=CATS[x.c]||"#64748b";return `<div class="tx"><div class="ico" style="background:${c}">${esc(x.t[0]||"?")}</div><div class="m"><b>${esc(x.t)}</b><small>${esc(x.c)}, ${fd(x.d)}</small></div><div class="amt ${x.a>0?"pos":"neg"}">${x.a>0?"+":"−"}${fmt(Math.abs(x.a))}</div></div>`}
+
+function render(){
+  $("#cardBox").innerHTML=cardHTML();$("#cardBox2").innerHTML=cardHTML();
+  const goal=1000000,p=Math.min(100,S.bal.sav/goal*100);
+  $("#accs").innerHTML=`<div class="acc"><div><b>Основной счёт</b><small>40817 •••• 0042</small></div><b>${fmt(S.bal.main)}</b></div>
+  <div class="acc" style="display:block"><div style="display:flex;justify-content:space-between"><div><b>Накопительный счёт</b><small>Для накоплений</small></div><b>${fmt(S.bal.sav)}</b></div><div class="bar"><i style="width:${p}%"></i></div></div>`;
+  // donut
+  const ex={};S.tx.filter(x=>x.a<0).forEach(x=>ex[x.c]=(ex[x.c]||0)-x.a);
+  const tot=Object.values(ex).reduce((a,b)=>a+b,0),C=2*Math.PI*40;let off=0,segs="";
+  const ent=Object.entries(ex).sort((a,b)=>b[1]-a[1]);
+  ent.forEach(([k,v])=>{const l=v/tot*C;segs+=`<circle cx="50" cy="50" r="40" fill="none" stroke="${CATS[k]||"#64748b"}" stroke-width="14" stroke-dasharray="${l} ${C-l}" stroke-dashoffset="${-off}" transform="rotate(-90 50 50)"/>`;off+=l});
+  $("#donut").innerHTML=tot?`<svg viewBox="0 0 100 100" role="img" aria-label="Расходы"><circle cx="50" cy="50" r="40" fill="none" stroke="var(--chip)" stroke-width="14"/>${segs}<text x="50" y="48" text-anchor="middle" font-size="7" fill="var(--mut)">Расходы</text><text x="50" y="58" text-anchor="middle" font-size="8.5" font-weight="600" fill="var(--ink)">${Math.round(tot).toLocaleString("ru-RU")} ₽</text></svg><div class="leg">${ent.slice(0,6).map(([k,v])=>`<div><i style="background:${CATS[k]||"#64748b"}"></i>${k}<em>${Math.round(v/tot*100)}%</em></div>`).join("")}</div>`:`<div class="empty">Пока нет расходов</div>`;
+  $("#recent").innerHTML=S.tx.slice(0,5).map(txRow).join("")||`<div class="empty">Операций пока нет. Откройте вкладку «Работа» и заработайте первые деньги</div>`;
+  renderHist();renderGoal();renderWork();renderMarket();renderSkins();
+  const pf=$("#from").value,pt=$("#to").value;$("#from").innerHTML=`<option value="main">Основной счёт, ${fmt(S.bal.main)}</option><option value="sav">Накопительный, ${fmt(S.bal.sav)}</option>`;
+  const fv=$("#from").value;
+  $("#to").innerHTML=`<optgroup label="Мои счета"><option value="acc:main">Основной счёт</option><option value="acc:sav">Накопительный счёт</option></optgroup><option value="login">Игроку по логину</option>`;
+  $("#to").value=pt||"login";if(pf)$("#from").value=pf;tg();
+  $("#frz").classList.toggle("on",S.frozen);$("#shw").classList.toggle("on",showDet);
+  $("#limr").value=S.limit;$("#limv").textContent=fmt(S.limit);
+  const used=spentToday();$("#lim").innerHTML=`<p style="margin:0;color:var(--mut)">Переводы другим людям сегодня</p><div class="bar" style="height:12px"><i style="width:${Math.min(100,used/S.limit*100)}%"></i></div><p style="margin:8px 0 0"><b>${fmt(used)}</b> из ${fmt(S.limit)}</p><p style="color:var(--mut);font-size:13px">Между своими счетами переводы без ограничений. Изменить лимит можно на вкладке «Карта».</p>`;
+}
+function renderHist(){
+  const q=$("#q").value.trim().toLowerCase(),f=$("#f").value;
+  const l=S.tx.filter(x=>(f==="all"||(f==="in"?x.a>0:x.a<0))&&(!q||(x.t+" "+x.c).toLowerCase().includes(q)));
+  const inn=l.filter(x=>x.a>0).reduce((p,x)=>p+x.a,0),out=l.filter(x=>x.a<0).reduce((p,x)=>p-x.a,0);
+  $("#hsum").textContent=l.length?`Операций: ${l.length}. Поступило ${fmt(inn)}, потрачено ${fmt(out)}`:"";
+  $("#hlist").innerHTML=l.map(txRow).join("")||`<div class="empty">Ничего не найдено. Измените запрос или фильтр.</div>`;
+}
+
+let job=null;
+const EDU=[500,2000,8000,30000,100000];
+const JOBS=[{id:"flyer",n:"Раздача листовок",p:60,s:3,xp:5,l:1},{id:"courier",n:"Курьер",p:200,s:5,xp:8,l:2},{id:"waiter",n:"Официант",p:500,s:8,xp:12,l:3},{id:"design",n:"Фрилансер-дизайнер",p:1500,s:12,xp:18,l:4},{id:"dev",n:"Программист",p:5000,s:18,xp:28,l:5},{id:"pm",n:"Менеджер проектов",p:15000,s:25,xp:40,l:6},{id:"trader",n:"Трейдер",p:50000,s:35,xp:60,l:8},{id:"ceo",n:"Директор компании",p:150000,s:45,xp:90,l:10}];
+const lvl=()=>Math.floor(Math.sqrt(S.xp/15))+1;
+function renderGoal(){const t=S.bal.main+S.bal.sav;$("#goal").innerHTML=`<div style="display:flex;justify-content:space-between"><b>${fmt(t)}</b><span style="color:var(--mut)">${fmt(1e6)}</span></div><div class="bar" style="height:12px"><i style="width:${Math.min(100,t/1e6*100)}%"></i></div><p style="margin:8px 0 0;color:var(--mut);font-size:13px">${t>=1e6?"Цель достигнута, вы миллионер!":"Осталось заработать "+fmt(1e6-t)}</p>`}
+function renderWork(){
+  const L=lvl(),cur=15*(L-1)**2,nxt=15*L*L,m=1+.15*S.edu,ec=EDU[S.edu];
+  $("#wk").innerHTML=`<div class="box" style="margin-bottom:18px"><div style="display:flex;justify-content:space-between;align-items:baseline"><h2 style="margin:0">Уровень ${L}</h2><small style="color:var(--mut)">Опыт ${S.xp} из ${nxt}</small></div><div class="bar" style="height:10px"><i style="width:${(S.xp-cur)/(nxt-cur)*100}%"></i></div><p style="margin:10px 0 0;color:var(--mut);font-size:13px">Бонус к заработку: +${Math.round((m-1)*100)}%. Новые профессии открываются с ростом уровня.</p></div><div class="jobs">${JOBS.map(j=>{const lock=L<j.l,run=job&&job.id===j.id;return `<div class="box job ${lock?"lock":""}"><div style="display:flex;justify-content:space-between;gap:8px"><b>${j.n}</b><span class="pos">+${fmt(Math.round(j.p*m))}</span></div><small>${lock?"Откроется на уровне "+j.l:j.s+" сек, +"+j.xp+" опыта"}</small><div class="bar"><i id="pb-${j.id}" style="width:${run?(Date.now()-job.t0)/j.s/10:0}%"></i></div><button class="btn" style="margin-top:12px" data-job="${j.id}" ${lock||job?"disabled":""}>${run?"Работаем…":"Работать"}</button></div>`}).join("")}<div class="box job"><b>Курсы повышения квалификации</b><small>${ec?"+15% к заработку навсегда":"Все курсы пройдены"}</small><button class="btn ghost" style="margin-top:12px" data-edu ${ec?"":"disabled"}>${ec?"Купить за "+fmt(ec):"Готово"}</button></div></div>`
+}
+function finish(j){const b=lvl(),pay=Math.round(j.p*(1+.15*S.edu));job=null;S.xp+=j.xp;add("main","Работа: "+j.n,"Работа",pay);render();snd(lvl()>b?'level':'coin');toast("+"+fmt(pay)+(lvl()>b?". Новый уровень "+lvl()+"!":""))}
+setInterval(()=>{if(!job)return;if(++tk%4===0)snd('work');const j=JOBS.find(x=>x.id===job.id),p=(Date.now()-job.t0)/(j.s*1000),el=$("#pb-"+j.id);if(el)el.style.width=Math.min(100,p*100)+"%";if(p>=1)finish(j)},100);
+let AC=null,mute=false,tk=0,mk='Все',reg=false,U={},cur=null;
+const KU='dtb_users_v2',KS='dtb_session';
+const SKINS=[{id:'classic',n:'Классическая',p:0},{id:'sunset',n:'Закат',p:2000},{id:'ocean',n:'Океан',p:7500},{id:'gold',n:'Золото',p:30000},{id:'dia',n:'Алмаз',p:120000}];
+const CG={'Электроника':'#6366f1,#22d3ee','Одежда':'#f472b6,#fb923c','Транспорт':'#10b981,#3b82f6','Недвижимость':'#f59e0b,#ef4444'};
+const MARKET=[{id:'ph',e:'📱',n:'Смартфон Pixon 12',c:'Электроника',p:15000,s:'Алексей, Москва'},{id:'lt',e:'💻',n:'Ноутбук UltraBook',c:'Электроника',p:60000,s:'Ирина, Казань'},{id:'cn',e:'🎮',n:'Игровая консоль',c:'Электроника',p:35000,s:'Денис, Самара'},{id:'sn',e:'👟',n:'Кроссовки, 42 размер',c:'Одежда',p:6000,s:'Полина, Тверь'},{id:'jk',e:'🧥',n:'Кожаная куртка',c:'Одежда',p:18000,s:'Мария, Сочи'},{id:'wt',e:'⌚',n:'Швейцарские часы',c:'Одежда',p:120000,s:'Виктор, Москва'},{id:'bk',e:'🚲',n:'Горный велосипед',c:'Транспорт',p:22000,s:'Олег, Омск'},{id:'mt',e:'🏍️',n:'Мотоцикл Ural',c:'Транспорт',p:180000,s:'Роман, Тула'},{id:'cr',e:'🚗',n:'Седан, 2019 год',c:'Транспорт',p:650000,s:'Автосалон «Вектор»'},{id:'gr',e:'🚪',n:'Гараж в кооперативе',c:'Недвижимость',p:150000,s:'Николай, Пермь',r:1500},{id:'st',e:'🏢',n:'Студия, 24 м²',c:'Недвижимость',p:500000,s:'Агентство «Дом»',r:5000},{id:'ap',e:'🏠',n:'Квартира 2к, 58 м²',c:'Недвижимость',p:1500000,s:'Агентство «Дом»',r:15000},{id:'vl',e:'🏡',n:'Дом с участком',c:'Недвижимость',p:4000000,s:'Собственник',r:40000}];
+function loadU(){try{U=JSON.parse(localStorage.getItem(KU))||{}}catch(e){U={}}}
+function tone(f,d,t='square',v=.06,at=0){if(mute)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();const o=AC.createOscillator(),g=AC.createGain(),s=AC.currentTime+at;o.type=t;o.frequency.setValueAtTime(f,s);g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(.0001,s+d);o.connect(g);g.connect(AC.destination);o.start(s);o.stop(s+d)}catch(e){}}
+function snd(k){if(k==='coin'){tone(988,.1,'square',.07);tone(1319,.25,'square',.07,.09)}else if(k==='buy'){[523,659,784].forEach((f,i)=>tone(f,.15,'triangle',.1,i*.1))}else if(k==='level'){[523,659,784,1047].forEach((f,i)=>tone(f,.18,'triangle',.1,i*.1))}else if(k==='work'){tone(120+Math.random()*80,.08,'sawtooth',.05);tone(900+Math.random()*300,.03,'square',.025,.05)}}
+async function hs(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+function authMode(r){reg=r;$('#at').textContent=r?'Регистрация':'Вход';$('#ab').textContent=r?'Создать аккаунт':'Войти';$('#asw').textContent=r?'Уже есть аккаунт? Войти':'Нет аккаунта? Зарегистрироваться';$('#ap').autocomplete=r?'new-password':'current-password';$('#ae').textContent=''}
+function enter(l){cur=l;S=U[l].s;try{localStorage.setItem(KS,l)}catch(e){}save();$('#auth').classList.add('off');$('#ap').value='';$('#me').textContent=l[0].toUpperCase();$('#me').title=l;showDet=false;render()}
+function tg(){$('#lw').style.display=$('#to').value==='login'?'':'none'}
+function renderSkins(){$('#skins').innerHTML=SKINS.map(k=>{const o=S.skins.includes(k.id),on=S.skin===k.id;return `<div class='sk'><div class='bank-card sk-${k.id} mini'></div><b>${k.n}</b><button class='chip' data-sk='${k.id}' ${on?'disabled':''}>${on?'Выбрано':o?'Выбрать':'Купить за '+fmt(k.p)}</button></div>`}).join('')}
+function renderMarket(){const q=($('#mq').value||'').toLowerCase();
+  $('#mchips').innerHTML=['Все',...new Set(MARKET.map(x=>x.c))].map(c=>`<button class='chip ${c===mk?'on':''}' data-c='${c}'>${c}</button>`).join('');
+  $('#mgrid').innerHTML=MARKET.filter(x=>(mk==='Все'||x.c===mk)&&x.n.toLowerCase().includes(q)).map(x=>{const own=S.items.includes(x.id);return `<div class='box job ad'><div class='pic' style='background:linear-gradient(135deg,${CG[x.c]})'>${x.e}</div><div class='adp'>${fmt(x.p)}</div><b>${x.n}</b><small>${x.s}</small>${x.r?`<small class='pos'>Аренда +${fmt(x.r)} за 10 сек</small>`:''}<button class='btn' style='margin-top:12px' data-buy='${x.id}' ${own?'disabled':''}>${own?'Куплено':'Купить'}</button></div>`}).join('')||`<div class='empty'>Ничего не найдено</div>`;
+  $('#mine').innerHTML=MARKET.filter(x=>S.items.includes(x.id)).map(x=>`<div class='tx'><div class='ico' style='background:var(--chip);font-size:20px'>${x.e}</div><div class='m'><b>${x.n}</b><small>${x.r?'Приносит '+fmt(x.r)+' за 10 сек':x.c}</small></div><button class='chip' data-sell='${x.id}'>Продать за ${fmt(Math.round(x.p*.8))}</button></div>`).join('')||`<div class='empty'>Вы пока ничего не купили. Выберите объявление выше.</div>`}
+function modal(title,body,ok,fn){
+  const m=$("#modal");m.innerHTML=`<div class="dlg" role="dialog" aria-modal="true"><h2 style="font-size:18px">${title}</h2>${body}<div class="err" id="merr"></div><div class="row" style="margin-top:14px"><button class="btn ghost" id="mc" style="margin:0">Отмена</button><button class="btn" id="mo" style="margin:0">${ok}</button></div></div>`;
+  m.classList.add("on");const close=()=>m.classList.remove("on");
+  $("#mc").onclick=close;m.onclick=e=>{if(e.target===m)close()};
+  $("#mo").onclick=()=>{const r=fn();if(r)$("#merr").textContent=r;else close()};
+  const i=m.querySelector("input");if(i)i.focus();
+}
+function amountModal(title,ok,fn){
+  modal(title,`<label for="ma">Сумма, ₽</label><input id="ma" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0,00">`,ok,()=>{const v=parseFloat($("#ma").value);if(!(v>0))return"Введите сумму больше нуля";return fn(Math.round(v*100)/100)})
+}
+
+function doTransfer(){
+  const from=$("#from").value,to=$("#to").value,v=Math.round(parseFloat($("#sum").value)*100)/100,note=$("#note").value.trim();
+  const err=m=>{$("#perr").textContent=m;return false};
+  $("#perr").textContent="";
+  if(!(v>0))return err("Введите сумму больше нуля");
+  if(v>S.bal[from])return err("Недостаточно средств на выбранном счёте");
+  const own=to.startsWith("acc:"),dest=own?to.slice(4):$("#tl").value.trim().toLowerCase();
+  if(own&&dest===from)return err("Выберите другой счёт получателя");
+  if(!own){
+    if(!U[dest])return err('Игрок с таким логином не найден');if(dest===cur)return err('Нельзя перевести самому себе');if(S.frozen)return err("Карта заблокирована. Разблокируйте её на вкладке «Карта»");
+    if(spentToday()+v>S.limit)return err("Превышен суточный лимит. Осталось "+fmt(Math.max(0,S.limit-spentToday())));
+  }
+  const name=own?(dest==="main"?"Основной счёт":"Накопительный счёт"):"@"+dest;
+  modal("Подтвердите перевод",`<p style="margin:0 0 6px;color:var(--mut)">Получатель</p><b>${esc(name)}</b><p style="margin:14px 0 6px;color:var(--mut)">Сумма</p><b style="font:600 24px Unbounded,Onest,sans-serif">${fmt(v)}</b>${note?`<p style="color:var(--mut)">«${esc(note)}»</p>`:""}`,"Подтвердить",()=>{
+    if(own){add(from,"Перевод на "+name.toLowerCase(),"Переводы",-v);add(dest,"Перевод со счёта","Пополнение",v)}
+    else{add(from,'Перевод игроку @'+dest+(note?' — '+note:''),'Переводы',-v);const R=U[dest].s;R.bal.main=Math.round((R.bal.main+v)*100)/100;R.tx.unshift({id:Math.random().toString(36).slice(2),t:'Перевод от @'+cur+(note?' — '+note:''),c:'Пополнение',a:v,d:new Date().toISOString(),acc:'main'});save()}
+    $("#sum").value="";$("#note").value="";render();toast("Перевод выполнен");
+  });
+}
+
+$$("#tabs button").forEach(b=>b.onclick=()=>{$$("#tabs button").forEach(x=>x.classList.toggle("on",x===b));$$(".tab").forEach(t=>t.classList.toggle("on",t.id===b.dataset.t));window.scrollTo(0,0)});
+const go=t=>$(`#tabs [data-t="${t}"]`).click();
+$("#aPay").onclick=()=>go("pay");
+$("#aTop").onclick=()=>go("work");
+$("#wk").onclick=e=>{const b=e.target.closest("[data-job]"),u=e.target.closest("[data-edu]");
+  if(b&&!job){job={id:b.dataset.job,t0:Date.now()};snd('work');renderWork()}
+  if(u){const c=EDU[S.edu];if(!c)return;if(S.bal.main<c)return toast("Не хватает денег на основном счёте");S.edu++;add("main","Курсы повышения квалификации","Образование",-c);render();snd('buy');toast("Доход вырос на 15%")}};
+$("#aCash").onclick=()=>amountModal("Снять наличные","Снять",v=>{if(S.frozen)return"Карта заблокирована";if(v>S.bal.main)return"Недостаточно средств на основном счёте";add("main","Банкомат","Наличные",-v);render();toast("Наличные выданы")});
+$("#go").onclick=doTransfer;
+$("#quick").innerHTML=[500,1000,5000,10000].map(n=>`<button class="chip" data-n="${n}">${n.toLocaleString("ru-RU")} ₽</button>`).join("");
+$("#quick").onclick=e=>{if(e.target.dataset.n)$("#sum").value=e.target.dataset.n};
+$("#q").oninput=renderHist;$("#f").onchange=renderHist;
+$("#frz").onclick=()=>{S.frozen=!S.frozen;save();render();toast(S.frozen?"Карта заблокирована":"Карта разблокирована")};
+$("#shw").onclick=()=>{showDet=!showDet;render()};
+$("#limr").oninput=e=>{S.limit=+e.target.value;$("#limv").textContent=fmt(S.limit)};
+$("#limr").onchange=()=>{save();render()};
+$("#reset").onclick=()=>modal("Сбросить данные?","<p style='margin:0;color:var(--mut)'>Баланс, опыт и курсы обнулятся.</p>","Сбросить",()=>{S=seed();save();showDet=false;job=null;render();toast("Данные сброшены")});
+$("#theme").onclick=()=>{const r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=dark?"light":"dark"};
+authMode(false);
+$('#asw').onclick=()=>authMode(!reg);
+$('#ap').onkeydown=e=>{if(e.key==='Enter')$('#ab').click()};
+$('#ab').onclick=async()=>{const l=$('#al').value.trim().toLowerCase(),p=$('#ap').value,e=m=>{$('#ae').textContent=m};
+  if(!/^[a-z0-9_]{3,16}$/.test(l))return e('Логин: 3–16 символов, латиница, цифры и _');
+  if(p.length<4)return e('Пароль не короче 4 символов');
+  const h=await hs(l+':'+p);
+  if(reg){if(U[l])return e('Этот логин уже занят');U[l]={h,s:seed()}}else if(!U[l]||U[l].h!==h)return e('Неверный логин или пароль');
+  enter(l)};
+$('#out').onclick=()=>{save();cur=null;S=null;job=null;try{localStorage.removeItem(KS)}catch(e){}$('#al').value='';$('#auth').classList.remove('off');authMode(false)};
+$('#snd').onclick=()=>{mute=!mute;$('#snd').textContent=mute?'🔇':'🔊'};
+$('#to').onchange=tg;$('#mq').oninput=renderMarket;
+$('#skins').onclick=e=>{const b=e.target.closest('[data-sk]');if(!b)return;const k=SKINS.find(x=>x.id===b.dataset.sk);
+  if(!S.skins.includes(k.id)){if(S.bal.main<k.p)return toast('Не хватает денег на основном счёте');add('main','Дизайн карты «'+k.n+'»','Маркет',-k.p);S.skins.push(k.id);snd('buy')}
+  S.skin=k.id;save();render();toast('Дизайн «'+k.n+'» выбран')};
+$('#mk').onclick=e=>{const c=e.target.closest('[data-c]'),b=e.target.closest('[data-buy]'),s=e.target.closest('[data-sell]');
+  if(c){mk=c.dataset.c;renderMarket()}
+  if(b){const x=MARKET.find(i=>i.id===b.dataset.buy);if(S.bal.main<x.p)return toast('Не хватает денег на основном счёте');add('main','Маркет: '+x.n,'Маркет',-x.p);S.items.push(x.id);save();render();snd('buy');toast('Куплено: '+x.n)}
+  if(s){const x=MARKET.find(i=>i.id===s.dataset.sell);S.items=S.items.filter(i=>i!==x.id);add('main','Продажа: '+x.n,'Маркет',Math.round(x.p*.8));render();snd('coin');toast('Продано: '+x.n)}};
+setInterval(()=>{if(!S)return;const t=MARKET.reduce((p,x)=>p+(x.r&&S.items.includes(x.id)?x.r:0),0);if(t){add('main','Доход от аренды','Работа',t);render();snd('coin')}},10000);
+loadU();try{const s=localStorage.getItem(KS);if(s&&U[s])enter(s)}catch(e){}
+</script>
+</body>
+</html>
